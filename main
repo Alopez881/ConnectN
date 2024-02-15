@@ -1,0 +1,81 @@
+# main
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include "setting_up.h"
+#include "tic-tac-toe.h"
+
+
+
+// int get_dimesions_from_command_line(int argc, char** argv){
+//     if(argc <= 3){
+//         printf("Not enough arguments\n");
+//         printf("Usage connectn.out num_rows num_columns number_of_pieces_in_a_row_needed_to_win");
+//         exit(23);
+//     }
+//     if(argc >= 3){
+//         printf("Too many arguments entered\n");
+//         printf("Usage connectn.out num_rows num_columns
+// number_of_pieces_in_a_row_needed_to_win");
+//         exit(23);
+//     }
+
+//     int num_rows;
+//     int num_cols;
+//     int num_in_a_row_needed;
+//     char should_be_blank;
+//     int num_args_read = sscanf(argv[1], "%d %d %d %c", &num_rows, &num_cols, &num_in_a_row_needed, &should_be_blank);
+//     if(num_args_read != 3){
+//         printf("Dimensions needs to be an integer. Found %s\n", argv[1]);
+//         exit(23);
+//     }
+
+//     return num_rows, num_cols, num_in_a_row_needed;
+    
+// }
+
+
+
+int main(int argc, char** argv){
+    srand(time(NULL));
+    const char blank_space = '*';
+    const int num_players = 2;
+    int cur_player_turn;
+    char player_pieces[] = {'x','o','\0'};
+    char** board;
+    //int num_rows, int num_cols, int num_in_a_row_needed = get_dimesions_from_command_line(argc, argv);
+
+    if(argc < 4){
+        printf("Not enough arguments\n");
+        printf("Usage connectn.out num_rows num_columns number_of_pieces_in_a_row_needed_to_win");
+        exit(23);
+    }
+    if(argc > 4){
+        printf("Too many arguments entered\n");
+        printf("Usage connectn.out num_rows num_columns number_of_pieces_in_a_row_needed_to_win");
+        exit(23);
+    }
+
+    int num_rows;
+    int num_cols;
+    int num_pieces_needed;
+    char should_be_blank;
+    //int num_args_read = sscanf(argv[1], " %d %d %d %c", &num_rows, &num_cols, &num_in_a_row_needed, &should_be_blank);
+    sscanf(argv[1], "%d %c", &num_rows, &should_be_blank);
+    sscanf(argv[2], "%d %c", &num_cols, &should_be_blank);
+    sscanf(argv[3], "%d %c", &num_pieces_needed, &should_be_blank);
+    // if(num_args_read != 3){
+    //     printf("Dimensions needs to be an integer. Found %s %s %s\n", argv[1], argv[2], argv[3]);
+    //     exit(23);
+    // }
+
+
+    setup_game(num_cols, blank_space, num_players,
+                &cur_player_turn, player_pieces, &board, num_rows);
+    play_game(cur_player_turn, player_pieces, board, num_cols, blank_space, num_pieces_needed, num_rows);
+    cleanup(&board, num_cols);
+
+    return 0;
+}
